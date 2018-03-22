@@ -42,10 +42,33 @@ object Main {
   /**
    * Exercise 2
    */
-    def balance(chars: List[Char]): Boolean = ???
-  
-  /**
-   * Exercise 3
-   */
-    def countChange(money: Int, coins: List[Int]): Int = ???
+  def balance(chars: List[Char]): Boolean = {
+
+    def isBalanced(chars: List[Char], openParens: Int): Boolean = {
+      if (chars.isEmpty)
+        openParens == 0
+      else if (chars.head == '(')
+        isBalanced(chars.tail, openParens + 1)
+      else if (chars.head == ')')
+        openParens > 0 && isBalanced(chars.tail, openParens - 1)
+      else
+        isBalanced(chars.tail, openParens)
+    }
+
+    isBalanced(chars, 0)
   }
+
+  /**
+    * Exercise 3
+    */
+  def countChange(money: Int, coins: List[Int]): Int = {
+    if (money == 0)
+      1
+    else if (money < 0)
+      0
+    else if (coins.isEmpty)
+      0
+    else
+      countChange(money - coins.head, coins) + countChange(money, coins.tail)
+  }
+}
